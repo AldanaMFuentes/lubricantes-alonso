@@ -31,9 +31,6 @@ export default {
       type: String
     }
   },
-  created() {
-
-  },
   data() {
     return {
       imageData: "data:image/jpeg;base64," + this.image
@@ -41,7 +38,7 @@ export default {
   },
   methods: {
     formatPrice(price) {
-      const formattedPrice = price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').replace('.', ',');
+      const formattedPrice = price.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
       return formattedPrice;
     },
   }
