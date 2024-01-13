@@ -7,7 +7,7 @@
         {{ denominacion }}
       </v-card-title>
       <v-card-subtitle class="text-button pb-1 pt-2" style="font-size: 12px !important; line-height: 20px;">
-        Precio: ${{ precio }} <br>
+        Precio: ${{ formatPrice(precio) }} <br>
         Stock: {{ stock }}
       </v-card-subtitle>
     </v-card>
@@ -39,6 +39,12 @@ export default {
       imageData: "data:image/jpeg;base64," + this.image
     };
   },
+  methods: {
+    formatPrice(price) {
+      const formattedPrice = price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').replace('.', ',');
+      return formattedPrice;
+    },
+  }
 };
 </script>
 
