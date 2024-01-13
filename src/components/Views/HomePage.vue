@@ -12,7 +12,12 @@
           :key="index"
           class="btn-row mt-1 mb-1"
         >
-          <button text flat class="text-button v-btn-menu">
+          <button
+            text
+            flat
+            class="text-button v-btn-menu"
+            @click="clearFilters()"
+          >
             {{ item }}
           </button>
         </v-row>
@@ -157,7 +162,10 @@
           <v-container v-if="isLoading">
             <v-row v-for="row in 3" :key="row" class="products-row">
               <v-col cols="4" v-for="col in 3" :key="col" class="mr-1">
-                <v-skeleton-loader type="card"></v-skeleton-loader>
+                <v-skeleton-loader
+                  type="card"
+                  min-height="300px"
+                ></v-skeleton-loader>
               </v-col>
             </v-row>
           </v-container>
@@ -168,11 +176,23 @@
             :denominacion="product.denominacion"
             :precio="product.precio"
             :stock="product.stock"
+            :image="product.image"
           />
         </v-row>
 
         <!-- paginador -->
-        <v-row></v-row>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-container>
+              <v-pagination
+                v-model="page"
+                :length="this.totalPages"
+                active-color="primary"
+                class="the-paginator"
+              ></v-pagination>
+            </v-container>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -191,7 +211,7 @@ export default {
   },
   data() {
     return {
-      itemsMenu: ["catálogo", "contacto"],
+      itemsMenu: ["catálogo"],
       clearFiltersIcon: enums.icons.CLEAR_FILTERS,
       downArrowIcon: enums.icons.DOWN_ARROW_ICON,
       upArrowIcon: enums.icons.UP_ARROW_ICON,
@@ -205,10 +225,18 @@ export default {
       products: [],
       searchIcon: enums.icons.SEARCH,
       isLoading: false,
+      page: 1,
+      totalPages: 1,
     };
   },
   async created() {
-    await this.loadProducts(this.inputDenominacion, this.precioMin, this.precioMax);
+    await this.loadProducts();
+  },
+  watch: {
+    page: {
+      handler: "loadProducts",
+      immediate: true,
+    },
   },
   methods: {
     ...mapActions({
@@ -254,16 +282,25 @@ export default {
     },
     clearFilters() {
       this.inputDenominacion = this.precioMin = this.precioMax = null;
+      this.showFilters = true;
+      this.loadProducts();
     },
     async applyFilters() {
       this.showFilters = false;
       this.customizeFiltersApplied();
-      this.loadProducts(this.inputDenominacion, this.precioMin, this.precioMax);
+      this.loadProducts();
     },
-    async loadProducts(denominacion, minimo, maximo) {
+    async loadProducts() {
       this.isLoading = true;
-      const res = await this.getProducts(denominacion, minimo, maximo);
-      this.products = res;
+      const payload = {
+        denominacion: this.inputDenominacion,
+        minimo: this.precioMin,
+        maximo: this.precioMax,
+        page: this.page - 1,
+      };
+      const res = await this.getProducts(payload);
+      this.products = res.content;
+      this.totalPages = res.totalPages;
       this.isLoading = false;
     },
   },
@@ -279,7 +316,7 @@ export default {
   margin-right: 10px;
 }
 .menu-divider {
-  height: 180vh;
+  height: 1250px;
   border-right: 1px solid rgba(0, 0, 0, 0.6);
 }
 .text-overline {
@@ -294,9 +331,11 @@ export default {
 .products-row {
   flex-wrap: nowrap;
 }
-/* @media(min-width:440px) {
-  .products-row {
-  flex-wrap: wrap;
+::v-deep .v-pagination__item {
+  box-shadow: none;
+  border-radius: 20px;
 }
-} */
+::v-deep .v-pagination__navigation {
+  box-shadow: none;
+}
 </style>
