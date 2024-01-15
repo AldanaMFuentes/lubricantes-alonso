@@ -2,7 +2,7 @@
   <v-footer dark padless>
     <v-card flat tile class="white--text" color="primary">
       <v-row class="pb-2 pt-4 mb-0">
-        <v-col cols="3" class="ml-5 pl-5 pr-0">
+        <v-col :cols="isMobile ? 12 : 3" :lg="3" :md="3" :sm="6" :xs="12" class="ml-5 pl-5 pr-0">
           <v-card-text class="pa-0">
             Lubricantes Alonso ® S.A <br />
             Distriubuidora Oficial Córdoba
@@ -11,14 +11,14 @@
         <v-col cols="1" class="text-right pr-0">
           <v-icon size="24px">mdi-map-marker</v-icon>
         </v-col>
-        <v-col cols="3" class="pr-0">
+        <v-col :cols="isMobile ? 10 : 3" :lg="3" :md="3" :sm="4" :xs="10" class="pr-0">
           <!-- dirección de prueba CAMBIAR -->
           <v-card-text class="pa-0">
             Dr. Ignacio Arieta 5597 (1766) <br />
             La Tablada Buenos Aires Argentina
           </v-card-text>
         </v-col>
-        <v-col cols="4">
+        <v-col :cols="isMobile ? 12 : 4" :lg="4" :md="4" :sm="12" :xs="12">
           <v-row v-for="socialMedia in socialMedias" :key="socialMedia.name">
             <v-col class="text-right pa-0">
               <v-btn class="white--text" icon>
@@ -64,6 +64,11 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
   },
   methods: {
   }
