@@ -180,7 +180,7 @@
         </v-row>
 
         <!-- cards -->
-        <v-row class="ml-5">
+        <v-row>
           <v-container v-if="isLoading">
             <v-row v-for="row in 3" :key="row" class="products-row">
               <v-col
