@@ -1,12 +1,12 @@
 <template>
-  <v-container class="ml-0">
+  <div class="pa-4 mr-10">
     <!-- menu | filters -->
     <!--      | cards -->
     <!--      | paginador -->
 
     <v-row>
       <!-- columna menú -->
-      <v-col cols="2" class="ml-5">
+      <v-col cols="2">
         <v-row
           v-for="(item, index) in itemsMenu"
           :key="index"
@@ -17,19 +17,20 @@
             flat
             class="text-button v-btn-menu"
             @click="clearFilters()"
+            v-if="!isMobile"
           >
             {{ item }}
           </button>
         </v-row>
       </v-col>
 
-      <v-divider vertical class="menu-divider"></v-divider>
+      <v-divider vertical class="menu-divider" v-if="!isMobile"></v-divider>
 
       <!-- columna contenido -->
-      <v-col>
+      <v-col :cols="10">
         <!-- filtros -->
         <v-row>
-          <v-col cols="12" class="ml-5">
+          <v-col cols="12">
             <v-card>
               <v-container
                 class="pt-0"
@@ -38,7 +39,7 @@
                 <div class="text-overline ml-1 pt-2">Filtros</div>
                 <v-card-actions>
                   <v-row>
-                    <v-col cols="11" class="pa-0">
+                    <v-col cols="12" class="pa-0">
                       <!-- chips con filtros seleccionados -->
                       <v-container
                         v-if="
@@ -78,7 +79,14 @@
                     @submit.prevent="applyFilters()"
                   >
                     <v-row>
-                      <v-col cols="6" class="pb-0 pt-0">
+                      <v-col
+                        :cols="isMobile ? 12 : 6"
+                        class="pb-0 pt-0"
+                        :lg="6"
+                        :md="6"
+                        :sm="12"
+                        :xs="12"
+                      >
                         <v-text-field
                           label="Denominación"
                           v-model="inputDenominacion"
@@ -93,7 +101,14 @@
                           ></v-text-field
                         >
                       </v-col>
-                      <v-col cols="3" class="pb-0 pt-0">
+                      <v-col
+                        :cols="isMobile ? 12 : 3"
+                        class="pb-0 pt-0"
+                        :lg="3"
+                        :md="3"
+                        :sm="6"
+                        :xs="12"
+                      >
                         <v-text-field
                           label="Precio mínimo"
                           v-model="precioMin"
@@ -105,7 +120,14 @@
                           outlined
                         ></v-text-field>
                       </v-col>
-                      <v-col cols="3" class="pb-0 pt-0">
+                      <v-col
+                        :cols="isMobile ? 12 : 3"
+                        class="pb-0 pt-0"
+                        :lg="3"
+                        :md="3"
+                        :sm="6"
+                        :xs="12"
+                      >
                         <v-text-field
                           label="Precio máximo"
                           v-model="precioMax"
@@ -161,7 +183,16 @@
         <v-row class="ml-5">
           <v-container v-if="isLoading">
             <v-row v-for="row in 3" :key="row" class="products-row">
-              <v-col cols="4" v-for="col in 3" :key="col" class="mr-1">
+              <v-col
+                v-for="col in 3"
+                :key="col"
+                class="mr-1"
+                :cols="isMobile ? 12 : 4"
+                :lg="4"
+                :md="4"
+                :sm="6"
+                :xs="12"
+              >
                 <v-skeleton-loader
                   type="card"
                   min-height="300px"
@@ -195,7 +226,7 @@
         </v-row>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -236,6 +267,11 @@ export default {
     page: {
       handler: "loadProducts",
       immediate: true,
+    },
+  },
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
     },
   },
   methods: {
@@ -316,7 +352,8 @@ export default {
   margin-right: 10px;
 }
 .menu-divider {
-  height: 1250px;
+  min-height: 1250px;
+  height: auto;
   border-right: 1px solid rgba(0, 0, 0, 0.6);
 }
 .text-overline {

@@ -1,13 +1,25 @@
 <template>
-  <v-col cols="4">
-    <v-card class="product-card" min-height="300px" min-width="300px">
-      <v-img :src="imageData" height="200px" width="300px">
-      </v-img>
-      <v-card-title class="text-button pb-4" min-height="56px" style="line-height: 15px;">
+  <v-col
+    :cols="isMobile ? 12 : 4"
+    :lg="4"
+    :md="4"
+    :sm="6"
+    :xs="12"
+  >
+    <v-card class="product-card" min-height="300px" min-width="250px">
+      <v-img :src="imageData" height="65%" width="auto"> </v-img>
+      <v-card-title
+        class="text-button pb-4"
+        min-height="56px"
+        style="line-height: 15px"
+      >
         {{ denominacion }}
       </v-card-title>
-      <v-card-subtitle class="text-button pb-1 pt-2" style="font-size: 12px !important; line-height: 20px;">
-        Precio: ${{ formatPrice(precio) }} <br>
+      <v-card-subtitle
+        class="text-button pb-1 pt-2"
+        style="font-size: 12px !important; line-height: 20px"
+      >
+        Precio: ${{ formatPrice(precio) }} <br />
         Stock: {{ stock }}
       </v-card-subtitle>
     </v-card>
@@ -28,20 +40,28 @@ export default {
       type: Number,
     },
     image: {
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
-      imageData: "data:image/jpeg;base64," + this.image
+      imageData: "data:image/jpeg;base64," + this.image,
     };
+  },
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;  // Verifica si la pantalla es pequeña o menor
+    },
   },
   methods: {
     formatPrice(price) {
-      const formattedPrice = price.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      const formattedPrice = price
+        .toFixed(2)
+        .replace(".", ",")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       return formattedPrice;
     },
-  }
+  },
 };
 </script>
 
