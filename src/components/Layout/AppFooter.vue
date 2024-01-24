@@ -4,7 +4,7 @@
       <v-row class="pb-2 pt-4 mb-0">
         <v-col :cols="isMobile ? 12 : 3" :lg="3" :md="3" :sm="6" :xs="12" class="ml-5 pr-0" :style="{ 'padding-left': isMobile ? '50px' : '20px' }">
           <v-card-text class="pa-0">
-            Lubricantes Alonso ® S.A <br />
+            Lubricantes Alonso <br />
             Distriubuidora Oficial Córdoba
           </v-card-text>
         </v-col>
