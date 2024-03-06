@@ -1,9 +1,5 @@
 <template>
   <div class="pa-4 mr-10">
-    <!-- menu | filters -->
-    <!--      | cards -->
-    <!--      | paginador -->
-
     <v-row>
       <!-- columna menú -->
       <v-col cols="2">
@@ -260,10 +256,25 @@ export default {
       totalPages: 1,
     };
   },
-  async created() {
-    await this.loadProducts();
+  created() {
+    this.loadProducts();
   },
   watch: {
+    inputDenominacion(newValue) {
+      if (!newValue && !this.precioMin && !this.precioMax) {
+        this.loadProducts();
+      }
+    },
+    precioMin(newValue) {
+      if (!newValue && !this.inputDenominacion && !this.precioMax) {
+        this.loadProducts();
+      }
+    },
+    precioMax(newValue) {
+      if (!newValue && !this.inputDenominacion && !this.precioMin) {
+        this.loadProducts();
+      }
+    },
     page: {
       handler: "loadProducts",
       immediate: true,
@@ -324,6 +335,7 @@ export default {
     async applyFilters() {
       this.showFilters = false;
       this.customizeFiltersApplied();
+      this.page = 1;
       this.loadProducts();
     },
     async loadProducts() {
