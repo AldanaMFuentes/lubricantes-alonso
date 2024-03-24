@@ -21,11 +21,17 @@
         {{ denominacion }}
       </v-card-title>
       <v-card-subtitle
-        class="text-button pb-1 pt-2"
+        class="text-button pb-0 pt-1"
         style="font-size: 12px !important; line-height: 20px"
       >
-        Precio: ${{ formatPrice(precio) }} <br />
-        Stock: {{ stock }}
+        Precio: ${{ formatPrice(precio) }}
+      </v-card-subtitle>
+      <v-card-subtitle
+        class="text-button pb-0 pt-0"
+        style="font-size: 12px !important; line-height: 20px"
+        :class="{ 'disponible': stock > 0, 'no-disponible': stock <= 0 }"
+      >
+        {{ stock > 0 ? "DISPONIBLE" : "NO DISPONIBLE" }}
       </v-card-subtitle>
     </v-card>
   </v-col>
@@ -106,4 +112,11 @@ export default {
 .image-container {
   display: ruby-text;
 }
+.disponible {
+  color: green !important;
+}
+.no-disponible {
+  color: red !important;
+}
+
 </style>

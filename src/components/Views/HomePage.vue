@@ -89,12 +89,10 @@
                           clearable
                           :rules="[rules.maxLength(inputDenominacion, 100)]"
                           outlined
+                          dense
+                          :append-icon=searchIcon
                         >
-                          <template v-slot:append>
-                            <v-btn icon class="pb-3 pl-2 search-icon">
-                              <v-icon>{{ searchIcon }}</v-icon>
-                            </v-btn></template
-                          ></v-text-field
+                        </v-text-field
                         >
                       </v-col>
                       <v-col
@@ -114,6 +112,7 @@
                             rules.validPriceRange(precioMin, precioMax),
                           ]"
                           outlined
+                          dense
                         ></v-text-field>
                       </v-col>
                       <v-col
@@ -133,10 +132,11 @@
                             rules.validPriceRange(precioMin, precioMax),
                           ]"
                           outlined
+                          dense
                         ></v-text-field>
                       </v-col>
                     </v-row>
-                    <v-row class="text-right py-0">
+                    <v-row class="text-right">
                       <v-col cols="12" class="pt-0">
                         <v-tooltip left>
                           <template v-slot:activator="{ on, attrs }">
@@ -149,6 +149,7 @@
                               size="25px"
                               @click="clearFilters"
                               id="v-icon-limpiarFiltros"
+                              small
                             >
                               <v-icon>{{ clearFiltersIcon }}</v-icon></v-btn
                             >
@@ -163,6 +164,7 @@
                           :disabled="
                             !inputDenominacion && !precioMin && !precioMax
                           "
+                          small
                         >
                           Aplicar
                         </v-btn>
